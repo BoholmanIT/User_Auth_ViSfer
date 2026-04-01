@@ -10,8 +10,10 @@ from typing import List
 
 
 class Role(Base):
-    
+    """
+    Таблица ролей
+    """
     __tablename__ = 'roles'
-    role: Mapped[UserRole] = mapped_column(SQLEnum(UserRole), default=UserRole.USER, server_default=UserRole.USER.value)
+    role: Mapped[UserRole] = mapped_column(SQLEnum(UserRole), default=UserRole.USER, server_default=UserRole.USER.value) # Сама роль
     
-    user_associations: Mapped[List['User_Role']] = relationship(back_populates="role")
+    user_associations: Mapped[List['User_Role']] = relationship(back_populates="role") # Соединение с таблицей и юзеров и ролей
