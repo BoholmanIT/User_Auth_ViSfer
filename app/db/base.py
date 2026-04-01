@@ -5,8 +5,12 @@ import datetime
 
 
 class Base(DeclarativeBase):
+    '''
+    Базавая модель
+    '''
+    
     __tablename__ = 'bases'
     
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now())
-    updated_at: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4) # Айди всего
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now()) # Когда создано
+    updated_at: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now()) # Когда обновлено

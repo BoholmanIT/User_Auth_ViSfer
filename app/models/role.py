@@ -3,7 +3,8 @@ from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String
 from sqlalchemy import Enum as SQLEnum
 from app.models.enums_role import UserRole
-
+from User_Role import User_Role
+from typing import List
 
 
 

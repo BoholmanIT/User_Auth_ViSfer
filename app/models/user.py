@@ -1,7 +1,8 @@
 from db.base import Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String
-
+from User_Role import User_Role
+from typing import List
 
 class User(Base):
     
