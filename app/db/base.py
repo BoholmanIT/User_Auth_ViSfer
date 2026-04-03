@@ -2,6 +2,11 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import UUID, DateTime, func
 import uuid
 import datetime
+from models.profile import Profile
+from models.refresh_token import RefreshToken
+from models.role import Role
+from models.User_Role import User_Role
+from models.user import User
 
 
 class Base(DeclarativeBase):
