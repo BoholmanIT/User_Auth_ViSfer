@@ -15,12 +15,12 @@ class User_Role(Base):
     """
     __tablename__ = "user_roles"
     
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True) # Внешний ключ для определения юзера
-    role_id: Mapped[int] = mapped_column(ForeignKey('roles.id'), primary_key=True) # Внешний ключ для определенния ролей
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey('users.id'), primary_key=True) # Внешний ключ для определения юзера
+    role_id: Mapped[uuid.UUID] = mapped_column(ForeignKey('roles.id'), primary_key=True) # Внешний ключ для определенния ролей
     
     granted_at: Mapped[datetime] = mapped_column(server_default=func.now()) # Когда дали определенные права
     granted_by: Mapped[uuid.UUID] = mapped_column(default=None, nullable=True) # Кто дал эти права
-    expires_at: Mapped[Optional[datetime | None]] = mapped_column() # До какого момента будет актуальны роль
+    expires_at: Mapped[datetime | None] = mapped_column() # До какого момента будет актуальны роль
     revoked: Mapped[bool] = mapped_column(default=False) # Отмененные ли права у пользователя
     
     

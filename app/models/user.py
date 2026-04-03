@@ -4,6 +4,7 @@ from sqlalchemy import String
 from User_Role import User_Role
 from typing import List
 from profile import Profile
+from refresh_token import RefreshToken
 
 class User(Base):
     """
@@ -16,6 +17,6 @@ class User(Base):
     is_verified: Mapped[bool] = mapped_column(default=False, nullable=False) # Флаг благадрая которому мы определяем подтвердил ли пользователь почту
     profile: Mapped["Profile"] = relationship(back_populates="user", uselist=False)
     role_associations: Mapped[List['User_Role']] = relationship(back_populates="user") # Соединение для таблицы юзеров ролей
-    
+    refresh_tokens: Mapped["RefreshToken"] = relationship(back_populates="user", lazy="dynamic")
 
     
