@@ -12,9 +12,6 @@ class Settings(BaseSettings):
     def DATABASE_URL_asynccopg(self):
         return f"{self.STACKDB}://{self.USERDB}:{self.PASSDB}@{self.HOSTDB}:{self.PORTDB}/{self.APPNAME}"
     
-    @property
-    def DATABASE_URL_psycopg(self):
-        return f"{self.STACKDB}://{self.USERDB}:{self.PASSDB}@{self.HOSTDB}:{self.PORTDB}/{self.APPNAME}"
     
     model_config = SettingsConfigDict(env_file = ".env")
     
