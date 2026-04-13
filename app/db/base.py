@@ -2,6 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import UUID, DateTime, func
 import uuid
 import datetime
+import models
 from models.profile import Profile
 from models.refresh_token import RefreshToken
 from models.role import Role
