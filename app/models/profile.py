@@ -1,10 +1,11 @@
-from db.base import Base
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from app.db.base import Base, Mixin
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey
-from user import User
 import uuid
 
-class Profile(Base):
+class Profile(Base, Mixin):
     """
     Модель для профилей пользователей
     """
@@ -17,4 +18,4 @@ class Profile(Base):
     country_code: Mapped[str | None] = mapped_column(String(2)) # Код страны
     city: Mapped[str | None] = mapped_column(String(100)) # Город польщователя
     last_ip: Mapped[str | None] = mapped_column(String(45)) # Последний айпи адрес
-    user: Mapped["User"] = relationship(back_populates="profile") # Соедининение с таблицей пользователей
+    user = relationship("User", back_populates="profile") # Соедининение с таблицей пользователей

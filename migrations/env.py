@@ -7,9 +7,13 @@ import sys
 from alembic import context
 from dotenv import load_dotenv
 load_dotenv()
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.db.base import Base
-from app.db import models
+from app.models.profile import Profile
+from app.models.refresh_token import RefreshToken
+from app.models.role import Role
+from app.models.User_Role import User_Role
+from app.models.user import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
