@@ -4,7 +4,7 @@ class UserRole(str, Enum):
     """
     Перечисленние ролей
     """
-    ADMIN = 'admin'
-    USER = 'user'
-    GUEST = 'guest'
-    MODERATOR = 'moderator'
+    ADMIN = 'ADMIN'
+    USER = 'USER'
+    GUEST = 'GUEST'
+    MODERATOR = 'MODERATOR'

@@ -1,11 +1,11 @@
 from session import Factory_AsyncSession
 import asyncio
+from fastapi import Request
 
 
-
-async def get_db():
+async def get_db(request: Request):
     try:
-        async with Factory_AsyncSession() as session:
+        async with request.app.state.session_factory() as session:
             yield session
     
     except Exception as e:
@@ -14,6 +14,4 @@ async def get_db():
         # Нужно везде перехватывать ошибки
         # Нужно везде делать логи
         # Место для лога 
-        
-        # .
-        await session.rollback()
+        print(e)

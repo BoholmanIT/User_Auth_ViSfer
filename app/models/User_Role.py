@@ -1,14 +1,14 @@
-from db.base import Base
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from app.db.base import Base, Mixin
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey, DateTime, func
 from datetime import datetime
-from role import Role
-from user import User
 import uuid
 from typing import Optional
 
 
-class User_Role(Base):
+class User_Role(Base, Mixin):
     """
         Модель та самая юзеров ролей
         Нужна для соединение определенной роли и юзера
@@ -24,6 +24,6 @@ class User_Role(Base):
     revoked: Mapped[bool] = mapped_column(default=False) # Отмененные ли права у пользователя
     
     
-    user: Mapped['User'] = relationship(back_populates='role_associations') # Соединение с таблицей юзер
-    role: Mapped['Role'] = relationship(back_populates='user_associations')  # Соединение с таблицей ролей
+    user = relationship("User", back_populates='role_associations') # Соединение с таблицей юзер
+    role = relationship("Role", back_populates='user_associations')  # Соединение с таблицей ролей
     
