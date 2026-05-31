@@ -2,8 +2,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import UUID, DateTime, func
 import uuid
 import datetime
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 
 
 

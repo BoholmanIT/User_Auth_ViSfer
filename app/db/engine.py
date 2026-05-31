@@ -1,9 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine
-
-from config import settings
-import asyncio
+from app.db.config import settings
 
 def async_engine():
-    return create_async_engine(url=settings.DATABASE_URL_asynccopg, echo=True,)
-
-
+    return create_async_engine(url=settings.DATABASE_URL, echo=True)

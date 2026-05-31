@@ -1,6 +1,5 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app.db.base import Base, Mixin
+
+from app.models.base import Base, Mixin
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey
 from datetime import datetime

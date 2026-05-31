@@ -7,10 +7,11 @@ class Settings(BaseSettings):
     APPNAME: str
     PORTDB: str
     STACKDB: str
+    DATABASE_URL: str
     
     @property
     def DATABASE_URL_asynccopg(self):
-        return f"{self.STACKDB}://{self.USERDB}:{self.PASSDB}@{self.HOSTDB}:{self.PORTDB}/{self.APPNAME}"
+        return f"{self.DATABASE_URL}"
     
     
     model_config = SettingsConfigDict(env_file = ".env")

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация — AuthService</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: white;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ff4d4d;
+            border-radius: 2px;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form.hidden {
+            display: none;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #ff4d4d;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button[type="submit"] {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background: #e03e3e;
+            transform: scale(0.98);
+        }
+
+        .message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            padding: 8px;
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .message.error {
+            background: rgba(255, 77, 77, 0.2);
+            color: #ff9999;
+        }
+
+        .message.success {
+            background: rgba(77, 255, 77, 0.2);
+            color: #a3e4a3;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="logo">
+            <h1>Auth<span>Service</span></h1>
+            <p style="color: rgba(255,255,255,0.6); font-size: 0.8rem;">войдите или создайте аккаунт</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="login">Вход</button>
+            <button class="tab-btn" data-tab="register">Регистрация</button>
+        </div>
+
+        <!-- Форма входа -->
+        <div id="login-form" class="form">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="login-email" placeholder="user@example.com">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="login-password" placeholder="••••••">
+            </div>
+            <button type="submit" id="login-btn">Войти</button>
+        </div>
+
+        <!-- Форма регистрации -->
+        <div id="register-form" class="form hidden">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="reg-email" placeholder="user@example.com">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="reg-password" placeholder="минимум 6 символов">
+            </div>
+            <div class="input-group">
+                <label>Имя (display name)</label>
+                <input type="text" id="reg-displayname" placeholder="Как вас называть?">
+            </div>
+            <button type="submit" id="register-btn">Зарегистрироваться</button>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+
+        const loginTab = document.querySelector('[data-tab="login"]');
+        const registerTab = document.querySelector('[data-tab="register"]');
+        const loginFormDiv = document.getElementById('login-form');
+        const registerFormDiv = document.getElementById('register-form');
+        const messageDiv = document.getElementById('message');
+
+        function showMessage(text, isError = true) {
+            messageDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                <span>${isError ? '❌' : '✅'}</span>
+                <span>${text}</span>
+            </div>
+        `;
+            messageDiv.className = 'message ' + (isError ? 'error' : 'success');
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+                messageDiv.className = 'message';
+            }, 4000);
+        }
+
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginFormDiv.classList.remove('hidden');
+            registerFormDiv.classList.add('hidden');
+            messageDiv.innerHTML = '';
+        });
+
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerFormDiv.classList.remove('hidden');
+            loginFormDiv.classList.add('hidden');
+            messageDiv.innerHTML = '';
+        });
+
+        // Регистрация
+        document.getElementById('register-btn').addEventListener('click', async () => {
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const displayName = document.getElementById('reg-displayname').value.trim();
+
+            if (!email || !password) {
+                showMessage('Заполните email и пароль');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage('Пароль должен быть не менее 6 символов');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        display_name: displayName || email.split('@')[0]
+                    })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Ошибка регистрации');
+                }
+                showMessage('Регистрация успешна! Теперь войдите.', false);
+
+                // Автоматически переключаем на вкладку входа и подставляем email
+                setTimeout(() => {
+                    loginTab.click();
+                    document.getElementById('login-email').value = email;
+                    document.getElementById('login-password').value = '';
+                    showMessage('Теперь вы можете войти с указанным email', false);
+                }, 1500);
+            } catch (err) {
+                showMessage(err.message);
+            }
+        });
+
+        // Логин
+        document.getElementById('login-btn').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                showMessage('Введите email и пароль');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Неверные учётные данные');
+                }
+
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('refresh_token', data.refresh_token);
+
+                showMessage('Вход выполнен! Перенаправление...', false);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } catch (err) {
+                showMessage(err.message);
+            }
+        });
+
+        // Если пользователь уже авторизован, перенаправляем на главную
+        if (localStorage.getItem('access_token')) {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+
+</html>

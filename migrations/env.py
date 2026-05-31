@@ -8,7 +8,7 @@ from alembic import context
 from dotenv import load_dotenv
 load_dotenv()
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app.db.base import Base
+from app.models.base import Base
 from app.models.profile import Profile
 from app.models.refresh_token import RefreshToken
 from app.models.role import Role
